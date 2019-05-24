@@ -4,6 +4,8 @@ This is an attempt to create a mobile chat application using <a href='https://ww
 
 # How to run the project
 
+This project is built on top of <a href='https://www.flutter.com'>flutter</a>. If you have flutter currently installed on your terminal and a configure phone (iOS or android), you can connect via USB and type `flutter run` to run the simultor on your device.
+
 # Project Architecture
 
 # Wireframes
