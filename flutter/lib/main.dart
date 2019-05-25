@@ -1,11 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:yaddayaddayadda/state/yadaState.dart';
 import 'package:yaddayaddayadda/pages/home/home.dart';
 import 'package:yaddayaddayadda/components/header/header.dart';
+import 'package:provider/provider.dart';
 
+void main() => runApp(MyApp());
 
-void main() =>
-  runApp(new MaterialApp(
-    title: 'YaddaYaddaYadda',
-    home: new Home()
-  ));
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ChangeNotifierProvider<YadaState>(
+        builder: (_) => YadaState(),
+        child: Home(),
+      ),
+    );
+  }
+}

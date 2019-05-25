@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:yaddayaddayadda/state/menu.dart';
+import 'package:yaddayaddayadda/state/yadaState.dart';
+import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class LeftMenu extends StatefulWidget {
@@ -12,7 +13,6 @@ class LeftMenu extends StatefulWidget {
 }
 
 class LeftMenuState extends State<LeftMenu>{
-  final menu = Menu();
 
   @override
   void initState() {
@@ -23,37 +23,27 @@ class LeftMenuState extends State<LeftMenu>{
 
   @override
   Widget build(BuildContext context) {
-    
-    print('~~~LeftMenu~~~');
-    print('value of menuOpen: ');
-    print(menu.menuOpen);
 
-    // print('value of menuOpenGet: ');
-    // print(menu.menuOpenGet);
+    print('~~~LeftMenu~~~');
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     var orientation = MediaQuery.of(context).orientation;
 
+    final yadaState = Provider.of<YadaState>(context);
+
     return Container(
-      child: Observer(
-        builder: (_){
-          print("inside builder");
-          print("and value of menu: ");
-          print(menu);
-          print("and value of menu.menuOpen: ");
-          print(menu.menuOpen);
-          return Container(
-            child: new Card(
-              child: new Text('${menu.menuOpen}'), 
-            ),
-            padding: EdgeInsets.fromLTRB(0, 0.1*height, 0, 0),
-            height: 0.9*height,
-            width: 0.5*width
-          );
-        }
+      child: new Container(
+        child: new Card(
+          child: new Text('${yadaState.menuOpen}'), 
+        ),
+        padding: EdgeInsets.fromLTRB(0, 0.1*height, 0, 0),
+        height: 0.9*height,
+        width: 0.5*width
       )
     );
+  }
+}
   
  //   builder: (context)=> (menu.menuOpen)?
       //     Container(
@@ -141,5 +131,4 @@ class LeftMenuState extends State<LeftMenu>{
     //   );
     // }
 
-  }
-}
+  

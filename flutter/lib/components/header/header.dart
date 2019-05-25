@@ -1,10 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:yaddayaddayadda/state/menu.dart';
+import 'package:yaddayaddayadda/state/yadaState.dart';
+import 'package:provider/provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-final menu = Menu();
 
 class Header extends StatelessWidget{
 
@@ -17,6 +16,8 @@ class Header extends StatelessWidget{
     double height = MediaQuery.of(context).size.height;
     var orientation = MediaQuery.of(context).orientation;
 
+    final yadaState = Provider.of<YadaState>(context);
+
     if(orientation==Orientation.portrait){
       return Container(
         child: new Row(
@@ -26,7 +27,7 @@ class Header extends StatelessWidget{
               alignment: Alignment.bottomLeft,
               child: new IconButton(
                 icon: new Icon(MdiIcons.menu), 
-                onPressed: menu.hamburgerClicked,
+                onPressed:  () => yadaState.hamburgerClicked(),
                 iconSize: 0.1*height,
               )
             ),
