@@ -9,3 +9,6 @@ This project is built on top of <a href='https://www.flutter.com'>flutter</a>. I
 # Project Architecture
 
 # Wireframes
+
+# To Do List
+- Find rights owning model (copy left?) I want to use.

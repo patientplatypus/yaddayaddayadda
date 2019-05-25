@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:yaddayaddayadda/components/header/header.dart';
 import 'package:yaddayaddayadda/components/footer/footer.dart';
-import 'package:yaddayaddayadda/components/middle/middle.dart';
+import 'package:yaddayaddayadda/components/middle/middlehome.dart';
 
 class Home extends StatelessWidget{
   
@@ -24,7 +24,7 @@ class Home extends StatelessWidget{
             new Positioned(
               top: .1*height, 
               left: 0,
-              child: new Middle()
+              child: new MiddleHome()
             ), 
             new Positioned(
               top: .95*height, 
