@@ -7,5 +7,5 @@ import 'package:yaddayaddayadda/components/header/header.dart';
 void main() =>
   runApp(new MaterialApp(
     title: 'YaddaYaddaYadda',
-    home: Home()
+    home: new Home()
   ));

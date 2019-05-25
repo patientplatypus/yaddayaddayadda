@@ -8,15 +8,28 @@ class MiddleHome extends StatelessWidget{
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    var orientation = MediaQuery.of(context).orientation;
 
-    return Container(
-      child: new Row(
-        children: <Widget>[
-          new Text("Hello middle")
-        ]
-      ),
-      width: width,
-      height: .85 * height
-    );
+    if(orientation==Orientation.portrait){
+      return Container(
+        child: new Row(
+          children: <Widget>[
+            new Text("Hello middle")
+          ]
+        ),
+        width: width,
+        height: .85 * height
+      );
+    }else{
+      return Container(
+        child: new Row(
+          children: <Widget>[
+            new Text("Hello middle")
+          ]
+        ),
+        width: width,
+        height: .9 * height
+      );
+    }
   }
 }
