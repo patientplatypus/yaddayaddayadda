@@ -17,8 +17,7 @@ class MiddleHome extends StatelessWidget{
             new Text("Hello middle")
           ]
         ),
-        width: width,
-        height: .85 * height
+        width: width
       );
     }else{
       return Container(
@@ -27,8 +26,8 @@ class MiddleHome extends StatelessWidget{
             new Text("Hello middle")
           ]
         ),
-        width: width,
-        height: .9 * height
+        height: .8*height,
+        width: width
       );
     }
   }

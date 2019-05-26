@@ -32,16 +32,20 @@ class LeftMenuState extends State<LeftMenu>{
 
     final yadaState = Provider.of<YadaState>(context);
 
-    return Container(
-      child: new Container(
-        child: new Card(
-          child: new Text('${yadaState.menuOpen}'), 
-        ),
-        padding: EdgeInsets.fromLTRB(0, 0.1*height, 0, 0),
-        height: 0.9*height,
-        width: 0.5*width
-      )
-    );
+    if(yadaState.menuOpen){
+      return new Container(
+        child: new Container(
+          child: new Card(
+            child: new Text('Hello there Menu'), 
+          ),
+          padding: EdgeInsets.fromLTRB(0, 0.1*height, 0, 0),
+          height: 0.9*height,
+          width: 0.5*width
+        )
+      );
+    }else{
+      return new Container(child: null);
+    }
   }
 }
   

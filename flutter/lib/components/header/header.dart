@@ -20,33 +20,54 @@ class Header extends StatelessWidget{
 
     if(orientation==Orientation.portrait){
       return Container(
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Align(
-              alignment: Alignment.bottomLeft,
-              child: new IconButton(
-                icon: new Icon(MdiIcons.menu), 
-                onPressed:  () => yadaState.hamburgerClicked(),
-                iconSize: 0.1*height,
+        child: new Scaffold(
+          appBar: new AppBar(
+            title: new Text(
+              "YaddaYaddaYadda",
+              style: TextStyle(
+                fontFamily: 'Signpainter',
+                fontSize: height*.05,
+                color: Color.fromRGBO(140, 91, 48, 1)
               )
             ),
-            new Align(
-              alignment: Alignment.bottomRight,
-              child:  new Text(
-                "YaddaYaddaYadda",
-                style: TextStyle(
-                  fontFamily: 'Signpainter',
-                  fontSize: height*.05,
-                ),
-              )
-            ),
-          ]
+            backgroundColor: Color.fromRGBO(217, 191, 160, 1),
+          ),
+          drawer: new Drawer(
+            child: new Text("\n\n\nDrawer Is Here"),
+          ),
         ),
-        color: Color.fromRGBO(217, 191, 160, 1),
-        width: width,
-        height: .1 * height
+        width: width, 
+        height: height
       );
+      
+      // return Container(
+      //   child: new Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: <Widget>[
+      //       new Align(
+      //         alignment: Alignment.bottomLeft,
+      //         child: new IconButton(
+      //           icon: new Icon(MdiIcons.menu), 
+      //           onPressed:  () => yadaState.hamburgerClicked(),
+      //           iconSize: 0.1*height,
+      //         )
+      //       ),
+      //       new Align(
+      //         alignment: Alignment.bottomRight,
+      //         child:  new Text(
+      //           "YaddaYaddaYadda",
+      //           style: TextStyle(
+      //             fontFamily: 'Signpainter',
+      //             fontSize: height*.05,
+      //           ),
+      //         )
+      //       ),
+      //     ]
+      //   ),
+      //   color: Color.fromRGBO(217, 191, 160, 1),
+      //   width: width,
+      //   height: .1 * height
+      // );
     }else{
       return Container(
         child: new Row(
