@@ -10,5 +10,9 @@ This project is built on top of <a href='https://www.flutter.com'>flutter</a>. I
 
 # Wireframes
 
+# Security Audit
+
 # To Do List
 - Find rights owning model (copy left?) I want to use.
+- Go through security in security audit. Implement bcrypt and <a href='https://pub.dev/packages/flutter_secure_storage'>secure storage</a>
+- Make an ads page that reads the last n messages and displays ads based on statistically unique words

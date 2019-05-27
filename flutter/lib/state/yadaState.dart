@@ -18,12 +18,25 @@ class YadaState with ChangeNotifier {
   //   _counter--;
   //   notifyListeners();
   // }
-  bool menuOpen = false;
-  
-  getMenu() => menuOpen;
 
-  void hamburgerClicked(){
-    menuOpen=!menuOpen;
+
+  // bool menuOpen = false;
+  
+  // getMenu() => menuOpen;
+
+  // void hamburgerClicked(){
+  //   menuOpen=!menuOpen;
+  //   notifyListeners();
+  // }
+
+
+
+  String currentPage = "/home";
+
+  getCurrentPage() => currentPage;
+
+  void changeCurrentPage(newPage){
+    currentPage=newPage;
     notifyListeners();
   }
 }
