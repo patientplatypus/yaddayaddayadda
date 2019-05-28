@@ -46,6 +46,10 @@ class _Writer extends State<Writer> {
   //   );
   // }
 
+  keyboardSubmit(){
+    print("keyboard submit happened");
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -68,35 +72,85 @@ class _Writer extends State<Writer> {
         child: new Container(
           padding: EdgeInsets.fromLTRB(20.0, 5.0, 10.0, 5.0),
           width: width,
-          color:Color.fromRGBO(100, 100, 100, 1),
-          child: LayoutBuilder(
+          color: new Color.fromRGBO(100, 100, 100, 1),
+          child: new LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               print('inside layoutBuilder and value of contraints:');
               print(constraints.maxHeight);
-              return new Container(
-                height: constraints.maxHeight - 15.0,
-                width: constraints.maxWidth,
-                child: new Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: new BoxDecoration(
-                      border: new Border.all(color: Colors.black)
-                  ),
-                  child: new TextField(
-                    focusNode: focusMessage,
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black
+              return new ConstrainedBox(
+                constraints: new BoxConstraints(
+                  minHeight: constraints.maxHeight - 15.0,
+                  minWidth: constraints.maxWidth,
+                ),
+                child: new Scrollbar(
+                  child: new SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    reverse: true,
+                    child: new TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null, //grow automatically
+                      focusNode: focusMessage,
+                      controller: myKeyboardController,
+                      onSubmitted: keyboardSubmit(),
+                      decoration: new InputDecoration.collapsed(
+                        hintText: "Please enter your message: ",
+                      ),
                     ),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                    )
                   ),
-                )
+                ) 
               );
-            }
+            })
           )
-        )
-      );
+        );
+              
+              // return new SingleChildScrollView(
+              //   scrollDirection: Axis.vertical,
+              //   reverse: true,
+              //   child: new ConstrainedBox(
+              //     constraints: BoxConstraints(
+              //       minHeight: constraints.maxHeight,
+              //     ),
+              //     child: new IntrinsicHeight(
+              //       child: new TextField(
+              //         keyboardType: TextInputType.multiline,
+              //         expands: true,
+              //         maxLines: null,
+              //         focusNode: focusMessage,
+              //         style: new TextStyle(
+              //           fontSize: 16.0,
+              //           color: Colors.black
+              //         ),
+              //         decoration: const InputDecoration(
+              //           border: InputBorder.none,
+              //         )
+              //       ),
+              //     )
+              //   ) 
+              // );
+
+              // return new Container(
+              //   height: constraints.maxHeight - 15.0,
+              //   width: constraints.maxWidth,
+              //   child: new SingleChildScrollView(
+              //     child: new TextField(
+              //       expands: true,
+              //       minLines: null,
+              //       maxLines: null,
+              //       focusNode: focusMessage,
+              //       style: new TextStyle(
+              //         fontSize: 16.0,
+              //         color: Colors.black
+              //       ),
+              //       decoration: const InputDecoration(
+              //         border: InputBorder.none,
+              //       )
+              //     ),
+              //   )
+              // );
+      //       }
+      //     )
+      //   )
+      // );
     }else{
       return Container();
     }

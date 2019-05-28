@@ -11,6 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        cursorColor: Color.fromRGBO(242, 140, 15, 1)
+      ),
       home: ChangeNotifierProvider<YadaState>(
         builder: (_) => YadaState(),
         child: Home(),
