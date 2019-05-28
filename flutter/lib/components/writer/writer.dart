@@ -22,7 +22,25 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
   String messageText = "";
   String buttonText = "Enter Message!";
   String buttonColor = "green";
+  double buttonOpacity = 1.0;
+  // bool showOpacity=false;
+  String textType = "greeting";
   Timer _debounce;  
+
+  buttonOpacityHandler(textTypeVal){
+    if(textType!=textTypeVal){
+      setState(() {
+        buttonOpacity=0.0;
+        // showOpacity=true;
+      });
+      Future.delayed(const Duration(milliseconds: 300), () {
+        setState(() {
+          buttonOpacity=1.0;
+          // showOpacity=true;
+        });
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -32,37 +50,120 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
       final text = myKeyboardController.text.toLowerCase();
       var charsLeft = 250 - text.length;
       if(charsLeft < 0){
-        setState(() {
-          messageText = text;
-          buttonText = '${(text.length - 250).toString()} chars too long!';
-          buttonColor = 'red';
-        });
-      }else if(charsLeft==250){
-        setState(() {
-          messageText = text;
-          buttonText = 'Enter Message!';
-          buttonColor = 'green';
-        });
-      }else if(charsLeft>0){
-        setState(() {
-          messageText = text;
-          buttonText = '${(250 - text.length).toString()} chars left!';
-          buttonColor = 'green';
-        });
-      }
-      if (_debounce?.isActive ?? false) _debounce.cancel();
-      _debounce = Timer(const Duration(milliseconds: 500), () {
-        print("debounce has fired!~");
-        if(this.messageText.length>250){
+        if(textType!='length'){
           setState(() {
-            buttonText = 'Message too long!';
+            buttonOpacity=0.0;
+          });
+          Future.delayed(const Duration(milliseconds: 300), () {
+            setState(() {
+              buttonOpacity=1.0;
+              textType = 'length';
+              messageText = text;
+              buttonText = '${(text.length - 250).toString()} chars too long!';
+              buttonColor = 'red';
+            });
+          });
+        }else{
+          setState(() {
+            buttonOpacity=1.0;
+            textType = 'length';
+            messageText = text;
+            buttonText = '${(text.length - 250).toString()} chars too long!';
             buttonColor = 'red';
           });
-        }else if(this.messageText.length>0){
+        }
+      }else if(charsLeft==250){
+        if(textType!='greeting'){
           setState(() {
-            buttonText = 'Broadcast Message!';
+            buttonOpacity=0.0;
+          });
+          Future.delayed(const Duration(milliseconds: 300), () {
+            setState(() {
+              buttonOpacity=1.0;
+              messageText = text;
+              textType = "greeting";
+              buttonText = 'Enter Message!';
+              buttonColor = 'green';
+            });
+          });
+        }else{
+          setState(() {
+            buttonOpacity=1.0;
+            messageText = text;
+            textType = "greeting";
+            buttonText = 'Enter Message!';
             buttonColor = 'green';
           });
+        }
+      }else if(charsLeft>0){
+        if(textType!='length'){
+          setState(() {
+            buttonOpacity=0.0;
+          });
+          Future.delayed(const Duration(milliseconds: 300), () {
+            setState(() {
+              buttonOpacity=1.0;
+              messageText = text;
+              textType = "length";
+              buttonText = '${(250 - text.length).toString()} chars left!';
+              buttonColor = 'green';
+            });
+          });
+        }else{
+          setState(() {
+            buttonOpacity=1.0;
+            messageText = text;
+            textType = "length";
+            buttonText = '${(250 - text.length).toString()} chars left!';
+            buttonColor = 'green';
+          });
+        }
+      }
+      if (_debounce?.isActive ?? false) _debounce.cancel();
+      _debounce = Timer(const Duration(milliseconds: 300), () {
+        print("debounce has fired!~");
+        if(this.messageText.length>250){
+          if(textType!='warning'){
+            setState(() {
+              buttonOpacity=0.0;
+            });
+            Future.delayed(const Duration(milliseconds: 300), () {
+              setState(() {
+                buttonOpacity=1.0;
+                textType = "warning";
+                buttonText = 'Message too long!';
+                buttonColor = 'red';
+              });
+            });
+          }else{
+            setState(() {
+              buttonOpacity=1.0;
+              textType = "warning";
+              buttonText = 'Message too long!';
+              buttonColor = 'red';
+            });
+          }
+        }else if(this.messageText.length>0){
+          if(textType!='send'){
+            setState(() {
+              buttonOpacity=0.0;
+            });
+            Future.delayed(const Duration(milliseconds: 300), () {
+              setState(() {
+                buttonOpacity=1.0;
+                textType = "send";
+                buttonText = 'Broadcast Message!';
+                buttonColor = 'green';
+              });
+            });
+          }else{
+            setState(() {
+              buttonOpacity=1.0;
+              textType = "send";
+              buttonText = 'Broadcast Message!';
+              buttonColor = 'green';
+            });
+          }
         }
       });
     });
@@ -166,23 +267,26 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                         },
                         child: AnimatedSize(
                           vsync: this,
-                          duration: Duration(milliseconds: 500),
+                          duration: Duration(milliseconds: 300),
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 500),
+                            duration: Duration(milliseconds: 300),
                             decoration: new BoxDecoration(
                               borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
                               color: buttonColorFunc(), 
                             ),
                             height: constraints.maxHeight*0.3 - 10.0,
-                            width: this.buttonText.length*10.0,
+                            width: this.buttonText.length*12.0,
                             padding: EdgeInsets.all(10.0),
                             alignment: Alignment(0.0, 0.0),
-                            child: Text(
-                              '${this.buttonText}', 
-                              style: TextStyle(
-                                
+                            child: AnimatedOpacity(
+                              duration: Duration(milliseconds: 300),
+                              opacity: buttonOpacity,
+                              child: Text(
+                                '${this.buttonText}', 
+                                style: TextStyle(
+                                ),
                               ),
-                            ),
+                            )
                           ) 
                         )
                       ),
