@@ -32,11 +32,17 @@ class YadaState with ChangeNotifier {
 
 
   String currentPage = "/home";
-
   getCurrentPage() => currentPage;
-
   void changeCurrentPage(newPage){
     currentPage=newPage;
     notifyListeners();
   }
+
+  String writerStatus = "closed";
+  getWriterStatus() => writerStatus;
+  void changeWriterStatus(newStatus){
+    writerStatus=newStatus;
+    notifyListeners();
+  }
+
 }

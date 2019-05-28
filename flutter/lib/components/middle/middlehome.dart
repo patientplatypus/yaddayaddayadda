@@ -22,7 +22,16 @@ class MiddleHome extends StatelessWidget{
         return Container(
           child: new Row(
             children: <Widget>[
-              new Text("Hello /home")
+              new RaisedButton(
+                onPressed: (){
+                  yadaState.changeWriterStatus("homeMessage1");
+                },
+                child: Text(
+                  'Write Message',
+                  style: TextStyle(fontSize: 20)
+                ),
+                color: Color.fromRGBO(130, 130, 130, 1),
+              )
             ]
           ),
           width: width

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' as prefix0;
 
 import 'package:yaddayaddayadda/components/footer/footer.dart';
 import 'package:yaddayaddayadda/components/middle/middlehome.dart';
+import 'package:yaddayaddayadda/components/writer/writer.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
@@ -19,6 +20,18 @@ class ShadowDrawer extends StatefulWidget{
 }
 
 class _ShadowDrawer extends State<ShadowDrawer> {
+
+
+@override
+void initState() {
+  super.initState();
+}
+
+@override
+void dispose() {
+  super.dispose();
+}
+
  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -57,6 +70,17 @@ class _DrawerMenu extends State<DrawerMenu> {
       }
     });
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -89,15 +113,20 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("Home row clicked");
                     yadaState.changeCurrentPage("/home");
+                    yadaState.changeWriterStatus('close');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       new Padding(padding:EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0)),
-                      new Icon(
-                        MdiIcons.home, 
-                        color: Color.fromRGBO(217, 191, 160, 1)
+                      new AnimatedOpacity(
+                        duration: Duration(milliseconds: 500),
+                        opacity: yadaState.getCurrentPage()=='/home'?1.0:0.0,
+                        child: new Icon(
+                          MdiIcons.home, 
+                          color: Color.fromRGBO(217, 191, 160, 1)
+                        ), 
                       ),
                       new Padding(padding:EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0)),
                       new Text(
@@ -115,15 +144,20 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("About row clicked");
                     yadaState.changeCurrentPage("/about");
+                    yadaState.changeWriterStatus('close');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       new Padding(padding:EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0)),
-                      new Icon(
-                        MdiIcons.cloudQuestion, 
-                        color: Color.fromRGBO(217, 191, 160, 1)
+                      new AnimatedOpacity(
+                        duration: Duration(milliseconds: 500),
+                        opacity: yadaState.getCurrentPage()=='/about'?1.0:0.0,
+                        child: new Icon(
+                          MdiIcons.accountQuestion, 
+                          color: Color.fromRGBO(217, 191, 160, 1)
+                        ), 
                       ),
                       new Padding(padding:EdgeInsets.fromLTRB(5.0, 0.0, 00.0, 0)),
                       new Text(
@@ -247,12 +281,11 @@ class _Home extends State<Home>{
             backgroundColor: Color.fromRGBO(64, 45, 34, 1)
           ),
           body: new Scaffold(
-            // key: _scaffoldKey,
-            // drawer: new MyDrawer(menuOpen: this.menuOpen, changeMenuState: (stateVal)=>this.changeMenuState(stateVal)),
             body: new Container(
               child: new Stack(
                 children: <Widget>[
                   new MiddleHome(),
+                  new Writer(),
                   new ShadowDrawer(fadeBackground: this.fadeBackground),
                   new DrawerMenu(menuOpen: this.menuOpen, changeMenuState: (stateVal)=>this.changeMenuState(stateVal)),
                   Align(
