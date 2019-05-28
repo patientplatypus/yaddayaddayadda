@@ -51,6 +51,9 @@ flutter:
     - family: Signpainter
       fonts:
         - asset: assets/fonts/SignPainter_HouseScript_Regular.ttf
+    - family: Americantypewriter
+      fonts:
+        - asset: assets/fonts/American_Typewriter_Condensed_Bold.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

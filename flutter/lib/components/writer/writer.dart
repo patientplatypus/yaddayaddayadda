@@ -26,6 +26,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
   // bool showOpacity=false;
   String textType = "greeting";
   Timer _debounce;  
+  bool buttonDown = false;
 
   buttonOpacityHandler(textTypeVal){
     if(textType!=textTypeVal){
@@ -120,7 +121,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
         }
       }
       if (_debounce?.isActive ?? false) _debounce.cancel();
-      _debounce = Timer(const Duration(milliseconds: 300), () {
+      _debounce = Timer(const Duration(milliseconds: 1500), () {
         print("debounce has fired!~");
         if(this.messageText.length>250){
           if(textType!='warning'){
@@ -188,11 +189,62 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
     print("keyboard submit happened");
   }
 
-  buttonColorFunc(){
-    if(this.buttonColor=='red'){
-      return Colors.red;
-    }else if(this.buttonColor=='green'){
-      return Colors.green;
+  buttonColorFunc(buttonColorType){
+    if(buttonColorType=='background'){
+      //unnecessary - gradient covers this case...
+      // if(this.buttonColor=='red'){
+      //   return Color.fromRGBO(166, 33, 33, 1.0);
+      // }else if(this.buttonColor=='green'){
+      //   return Color.fromRGBO(6, 115, 2, 1.0);
+      // }
+    }else if(buttonColorType=='text'){
+       if(this.buttonColor=='red'){
+        return Color.fromRGBO(13, 13, 13, 1.0);
+      }else if(this.buttonColor=='green'){
+        return Color.fromRGBO(242, 242, 242, 1.0);
+      }
+    }else if(buttonColorType=='border'){
+      if(this.buttonColor=='red'){
+        return Color.fromRGBO(89, 24, 10, 1.0);
+      }else if(this.buttonColor=='green'){
+       return Color.fromRGBO(13, 89, 2, 1.0);
+      }
+    }
+  }
+
+  handleGradientFunc(){
+    if('${this.buttonColor}'=='green'){
+      if(this.buttonDown){
+        return LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.0, 0.5],
+          colors: [
+            Color.fromRGBO(13, 89, 2, 1.0),
+            Color.fromRGBO(6, 115, 2, 1.0),
+          ]
+        );
+      }else{
+        return LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.0, 0.5],
+          colors: [
+            Color.fromRGBO(6, 115, 2, 1.0),
+            Color.fromRGBO(13, 89, 2, 1.0),
+          ]
+        );
+      }
+    }else{
+      return LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        stops: [0.0, 0.5],
+        colors: [
+          Color.fromRGBO(89, 24, 10, 1.0),
+          Color.fromRGBO(166, 33, 33, 1.0)
+        ]
+      );
     }
   }
 
@@ -221,9 +273,21 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
         child: new Container(
           padding: EdgeInsets.fromLTRB(20.0, 5.0, 10.0, 5.0),
           width: width,
-          color: new Color.fromRGBO(100, 100, 100, 1),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(13, 13, 13, 1.0),
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              stops: [0.1, 0.5, 0.7],
+              colors: [ 
+                Color.fromRGBO(23, 38, 1, 1.0),
+                Color.fromRGBO(33, 64, 1, 1.0),
+                Color.fromRGBO(13, 82, 2, 1.0),
+              ]
+            )
+          ),
           child: new LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
+            builder: (BuildContext context, BoxConstraints constraints){
               print('inside layoutBuilder and value of contraints:');
               print(constraints.maxHeight);
               return new ConstrainedBox(
@@ -261,31 +325,52 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                     new Container(
                       height: 0.1*height,
                       padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
-                      child: new GestureDetector(
-                        onTap: (){
-                          print("message button clicked");
-                        },
-                        child: AnimatedSize(
-                          vsync: this,
-                          duration: Duration(milliseconds: 300),
+                      child: AnimatedSize(
+                        vsync: this,
+                        duration: Duration(milliseconds: 300),
+                        child: new GestureDetector(
+                          onTap: (){
+                            print("message button clicked");
+                          },
+                          onTapDown: (TapDownDetails details) {
+                            print("inside onTapDown");
+                            setState(() {
+                              buttonDown=true;
+                            });
+                          },
+                          onTapUp: (TapUpDetails details) {
+                            print("inside onTapUp");
+                            setState(() {
+                              buttonDown=false;
+                            });
+                          },
                           child: AnimatedContainer(
                             duration: Duration(milliseconds: 300),
                             decoration: new BoxDecoration(
                               borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
-                              color: buttonColorFunc(), 
+                              border: new Border.all(
+                                color: buttonColorFunc('border'), 
+                                width: 5.0
+                              ),
+                              gradient: handleGradientFunc()
                             ),
                             height: constraints.maxHeight*0.3 - 10.0,
-                            width: this.buttonText.length*12.0,
+                            width: this.buttonText.length*14.0,
                             padding: EdgeInsets.all(10.0),
                             alignment: Alignment(0.0, 0.0),
-                            child: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
-                              opacity: buttonOpacity,
-                              child: Text(
-                                '${this.buttonText}', 
-                                style: TextStyle(
+                            child: IgnorePointer(
+                              child: AnimatedOpacity(
+                                duration: Duration(milliseconds: 300),
+                                opacity: buttonOpacity,
+                                child: Text(
+                                  '${this.buttonText}', 
+                                  style: TextStyle(
+                                    fontFamily: 'Americantypewriter',
+                                    fontSize: 20.0,
+                                    color: buttonColorFunc('text')
+                                  ),
                                 ),
-                              ),
+                              )
                             )
                           ) 
                         )
