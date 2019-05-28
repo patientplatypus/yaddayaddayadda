@@ -12,6 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        accentColor: Colors.orangeAccent[400],
+        // accentColor: Color.fromRGBO(217, 156, 43, 1),
         cursorColor: Color.fromRGBO(242, 140, 15, 1)
       ),
       home: ChangeNotifierProvider<YadaState>(
