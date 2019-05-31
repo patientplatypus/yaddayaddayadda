@@ -12,7 +12,8 @@ import 'package:yaddayaddayadda/state/yadaState.dart';
 import 'package:provider/provider.dart';
 
 class ShadowDrawer extends StatefulWidget{
-  ShadowDrawer({@required this.fadeBackground});
+  ShadowDrawer({@required this.fadeBackground, @required this.fadeIgnorePointer});
+  final bool fadeIgnorePointer;
   final bool fadeBackground;
 
   @override
@@ -36,15 +37,20 @@ void dispose() {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        color: widget.fadeBackground?Color.fromRGBO(100, 100, 100, 0.5):Color.fromRGBO(100, 100, 100, 0.0),
-        height: 0.9*height,
-        width: 0.5*width
-      )
-    );
+    if(widget.fadeIgnorePointer){
+      print('inside widget.fadeIngorePointer is true');
+      return Container();
+    }else{
+      return Align(
+        alignment: Alignment.bottomRight,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          color: widget.fadeBackground?Color.fromRGBO(100, 100, 100, 0.5):Color.fromRGBO(100, 100, 100, 0.0),
+          height: 0.9*height,
+          width: 0.5*width
+        )
+      );
+    }
   }
 }
 
@@ -255,6 +261,7 @@ class _Home extends State<Home>{
 
   bool menuOpen = false;
   bool fadeBackground = false;
+  bool fadeIgnorePointer = true;
   
 
   @override
@@ -283,6 +290,11 @@ class _Home extends State<Home>{
       setState(() {
         fadeBackground = false;
       });
+      Future.delayed(Duration(milliseconds: 300), (){
+        setState(() {
+          fadeIgnorePointer = true;
+        });
+      });
     }else if(stateVal=='open'){
       setState(() {
         menuOpen = true;
@@ -290,6 +302,7 @@ class _Home extends State<Home>{
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
           fadeBackground = true;
+          fadeIgnorePointer = false;
         });
       });
     }
@@ -348,7 +361,7 @@ class _Home extends State<Home>{
                 children: <Widget>[
                   new MiddleHome(),
                   new Writer(),
-                  new ShadowDrawer(fadeBackground: this.fadeBackground),
+                  new ShadowDrawer(fadeBackground: this.fadeBackground, fadeIgnorePointer: this.fadeIgnorePointer),
                   new DrawerMenu(menuOpen: this.menuOpen, changeMenuState: (stateVal)=>this.changeMenuState(stateVal)),
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -407,65 +420,3 @@ class _Home extends State<Home>{
     }
   }
 }
-
-// class MyDrawer extends StatefulWidget {
-//   MyDrawer({@required this.menuOpen, @required this.changeMenuState});
-//   final bool menuOpen;
-//   final void Function(String) changeMenuState;
-
-//   @override
-//   _MyDrawerState createState() => _MyDrawerState();
-// }
-
-// class _MyDrawerState extends State<MyDrawer> {
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     print('inside initState of MyDrawer');
-//     print('and value of widget');
-//     print(widget);
-//     if(widget.menuOpen==false){
-//       this.dispose();
-//     }else if(widget.menuOpen==true){
-//       print('inside widget.menuOpen in initState');
-//       new Future.delayed(Duration.zero,() {
-//         print('inside future delayed in initState');
-//         Scaffold.of(context).openDrawer();
-//       });
-//     }
-//     print("open");
-//   }
-
-//   @override
-//   void dispose() {
-//     print("close");
-//     if(widget.menuOpen==true){
-//       widget.changeMenuState("close");
-//       super.dispose();
-//     }else{
-//       super.dispose();
-//     }
-//   }
-
-//   // void openDrawer(context){
-//   //   print('inside openDrawer function');
-//   //   Scaffold.of(context).openDrawer();
-//   // }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // if(widget.menuOpen==true){
-//     //   this.openDrawer(context);
-//     // }
-//     return Drawer(
-//       child: Column(
-//         children: <Widget>[
-//           Text("test1"),
-//           Text("test2"),
-//           Text("test3"),
-//         ],
-//       ),
-//     );
-//   }
-// }

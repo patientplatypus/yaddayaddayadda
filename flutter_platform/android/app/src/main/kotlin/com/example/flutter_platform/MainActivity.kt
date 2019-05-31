@@ -13,23 +13,11 @@ class MainActivity: FlutterActivity() {
     GeneratedPluginRegistrant.registerWith(this)
     MethodChannel(flutterView, CHANNEL1).setMethodCallHandler { call, result ->
       if (call.method == "getHello") {
-        // String text = call.arguments("text");
-        // let args = call.arguments as? [String];
-        // val arguments = call.arguments as java.util.HashMap<String, String>
-        // textArg = call.argument<String>("text");
         val textArg = call.argument<String>("text")
         result.success("hello ${textArg}");
       } else {
         result.notImplemented()
       }
     }
-    //  public void onMethodCall(MethodCall CHANNEL1, MethodChannel.Result result) {
-    //   if (call.method.equals("getHello")) {
-    //     text = call.argument("text");
-    //     result.success(text);
-    //   } else {
-    //       result.notImplemented();
-    //   }
-    // }
   }
 }

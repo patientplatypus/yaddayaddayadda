@@ -96,7 +96,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
             buttonColor = 'green';
           });
         }
-      }else if(charsLeft>0){
+      }else if(charsLeft>=0){
         if(textType!='length'){
           setState(() {
             buttonOpacity=0.0;
@@ -123,7 +123,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
       if (_debounce?.isActive ?? false) _debounce.cancel();
       _debounce = Timer(const Duration(milliseconds: 1500), () {
         print("debounce has fired!~");
-        if(this.messageText.length>250){
+        if(charsLeft<0){
           if(textType!='warning'){
             setState(() {
               buttonOpacity=0.0;
@@ -144,7 +144,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
               buttonColor = 'red';
             });
           }
-        }else if(this.messageText.length>0){
+        }else if(charsLeft>=0){
           if(textType!='send'){
             setState(() {
               buttonOpacity=0.0;
@@ -270,120 +270,142 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
     if(yadaState.getWriterStatus()=='homeMessage1'){
       return Align(
         alignment: Alignment.topLeft,
-        child: new Container(
-          padding: EdgeInsets.fromLTRB(20.0, 5.0, 10.0, 5.0),
-          width: width,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(13, 13, 13, 1.0),
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              stops: [0.1, 0.5, 0.7],
-              colors: [ 
-                Color.fromRGBO(23, 38, 1, 1.0),
-                Color.fromRGBO(33, 64, 1, 1.0),
-                Color.fromRGBO(13, 82, 2, 1.0),
-              ]
-            )
-          ),
-          child: new LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints){
-              print('inside layoutBuilder and value of contraints:');
-              print(constraints.maxHeight);
-              return new ConstrainedBox(
-                constraints: new BoxConstraints(
-                  minHeight: constraints.maxHeight - .15*height,
-                  minWidth: constraints.maxWidth,
-                ),
-                child: new Column(
-                  children: <Widget>[
-                    new Container(
-                      height: 0.7*constraints.maxHeight,
-                      alignment: Alignment(-1.0, -1.0),
-                      padding: EdgeInsets.all(20.0),
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
-                        color: Color.fromRGBO(217, 191, 160, 1),
-                      ),
-                      child:  new Scrollbar(
-                        child: new SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          reverse: true,
-                          child: new TextField(
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null, //grow automatically
-                            focusNode: focusMessage,
-                            controller: myKeyboardController,
-                            onSubmitted: keyboardSubmit(),
-                            decoration: new InputDecoration.collapsed(
-                              hintText: "Please enter your message: ",
+        child: new LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints){
+            print('inside layoutBuilder and value of contraints:');
+            print(constraints.maxHeight);
+            return new Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                new Positioned(
+                  top: 0.0,
+                  left: 0.0,
+                  child:  new Container(
+                    padding: EdgeInsets.fromLTRB(20.0, 0.025*constraints.maxHeight, 10.0, 0.025*constraints.maxHeight),
+                    height: constraints.maxHeight,
+                    width: constraints.maxWidth,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(13, 13, 13, 1.0),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        stops: [0.1, 0.5, 0.7],
+                        colors: [ 
+                          Color.fromRGBO(23, 38, 1, 1.0),
+                          Color.fromRGBO(33, 64, 1, 1.0),
+                          Color.fromRGBO(13, 82, 2, 1.0),
+                        ]
+                      )
+                    ),
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        new Container(
+                          height: 0.75*constraints.maxHeight,
+                          width: constraints.maxWidth,
+                          alignment: Alignment(-1.0, -1.0),
+                          padding: EdgeInsets.fromLTRB(40.0, 40.0, 40.0, 40.0),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
+                            color: Color.fromRGBO(217, 191, 160, 1),
+                          ),
+                          child:  new Scrollbar(
+                            child: new SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              reverse: true,
+                              child: new TextField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null, //grow automatically
+                                focusNode: focusMessage,
+                                controller: myKeyboardController,
+                                onSubmitted: keyboardSubmit(),
+                                decoration: new InputDecoration.collapsed(
+                                  hintText: "Please enter your message: ",
+                                ),
+                              ),
                             ),
+                          ), 
+                        ),
+                        new Container(
+                          height: 0.2*constraints.maxHeight,
+                          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                          child: AnimatedSize(
+                            vsync: this,
+                            duration: Duration(milliseconds: 300),
+                            child: new GestureDetector(
+                              onTap: (){
+                                print("message button clicked");
+                              },
+                              onTapDown: (TapDownDetails details) {
+                                print("inside onTapDown");
+                                setState(() {
+                                  buttonDown=true;
+                                });
+                              },
+                              onTapUp: (TapUpDetails details) {
+                                print("inside onTapUp");
+                                setState(() {
+                                  buttonDown=false;
+                                });
+                              },
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 300),
+                                decoration: new BoxDecoration(
+                                  borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
+                                  border: new Border.all(
+                                    color: buttonColorFunc('border'), 
+                                    width: 5.0
+                                  ),
+                                  gradient: handleGradientFunc()
+                                ),
+                                height: constraints.maxHeight*0.3 - 10.0,
+                                width: this.buttonText.length*14.0,
+                                padding: EdgeInsets.all(10.0),
+                                alignment: Alignment(0.0, 0.0),
+                                child: IgnorePointer(
+                                  child: AnimatedOpacity(
+                                    duration: Duration(milliseconds: 300),
+                                    opacity: buttonOpacity,
+                                    child: Text(
+                                      '${this.buttonText}', 
+                                      style: TextStyle(
+                                        fontFamily: 'Americantypewriter',
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: buttonColorFunc('text')
+                                      ),
+                                    ),
+                                  )
+                                )
+                              ) 
+                            )
                           ),
                         ),
-                      ), 
+                      ],  
+                    ), 
+                  )
+                ),
+                new Positioned(
+                  top: 5.0,
+                  left: 15.0,
+                  child: new Container(
+                    child: Text("k"), 
+                    height: 50.0,
+                    width: 50.0,     
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
                     ),
-                    new Container(
-                      height: 0.1*height,
-                      padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
-                      child: AnimatedSize(
-                        vsync: this,
-                        duration: Duration(milliseconds: 300),
-                        child: new GestureDetector(
-                          onTap: (){
-                            print("message button clicked");
-                          },
-                          onTapDown: (TapDownDetails details) {
-                            print("inside onTapDown");
-                            setState(() {
-                              buttonDown=true;
-                            });
-                          },
-                          onTapUp: (TapUpDetails details) {
-                            print("inside onTapUp");
-                            setState(() {
-                              buttonDown=false;
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
-                              border: new Border.all(
-                                color: buttonColorFunc('border'), 
-                                width: 5.0
-                              ),
-                              gradient: handleGradientFunc()
-                            ),
-                            height: constraints.maxHeight*0.3 - 10.0,
-                            width: this.buttonText.length*14.0,
-                            padding: EdgeInsets.all(10.0),
-                            alignment: Alignment(0.0, 0.0),
-                            child: IgnorePointer(
-                              child: AnimatedOpacity(
-                                duration: Duration(milliseconds: 300),
-                                opacity: buttonOpacity,
-                                child: Text(
-                                  '${this.buttonText}', 
-                                  style: TextStyle(
-                                    fontFamily: 'Americantypewriter',
-                                    fontSize: 20.0,
-                                    color: buttonColorFunc('text')
-                                  ),
-                                ),
-                              )
-                            )
-                          ) 
-                        )
-                      ),
-                    )
-                  ],  
-                ), 
-              );
-            })
-          )
+                  )
+                )
+              ],
+            );
+          })
         );
     }else{
       return Container();
     }
   }
 }
+
+            

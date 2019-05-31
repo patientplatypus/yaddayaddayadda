@@ -44,35 +44,15 @@ class Image {
   }
 }
 
+class MessageOptionsBox {
+  String optionOpen;
+  String optionOpenFade;
+
+  MessageOptionsBox(this.optionOpen, this.optionOpenFade);
+}
+
 
 class YadaState with ChangeNotifier {
-  // int _counter = 0;
-
-  // getCounter() => _counter;
-
-  // setCounter(int counter) => _counter = counter;
-
-  // void incrementCounter() {
-  //   _counter++;
-  //   notifyListeners();
-  // }
-
-  // void decrementCounter() {
-  //   _counter--;
-  //   notifyListeners();
-  // }
-
-
-  // bool menuOpen = false;
-  
-  // getMenu() => menuOpen;
-
-  // void hamburgerClicked(){
-  //   menuOpen=!menuOpen;
-  //   notifyListeners();
-  // }
-
-
 
   String currentPage = "/home";
   getCurrentPage() => currentPage;
@@ -95,4 +75,15 @@ class YadaState with ChangeNotifier {
     notifyListeners();
   }
 
+  var messageOptionsBox = new MessageOptionsBox('closed', 'closed');
+  getMessageOptionsBox() => messageOptionsBox;
+  void changeMessageOptionsBox(newMessageOption){
+    print('inside changeMessageOptionsBox in provider');
+    print('and value of newMessageOption: ');
+    print(newMessageOption);
+    messageOptionsBox.optionOpen=newMessageOption;
+    Future.delayed(const Duration(milliseconds: 300), () {
+      messageOptionsBox.optionOpenFade=newMessageOption;
+    });
+  }
 }

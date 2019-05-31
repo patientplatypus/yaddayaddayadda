@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+// import 'package:flutter/material.dart' as prefix0;
 
 import 'package:yaddayaddayadda/components/footer/footer.dart';
 import 'package:yaddayaddayadda/components/middle/middlehome.dart';
@@ -131,6 +131,68 @@ class _DrawerMenu extends State<DrawerMenu> {
                       new Padding(padding:EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0)),
                       new Text(
                         "Home", 
+                        style: TextStyle(
+                          fontFamily: 'Signpainter',
+                          fontSize: height*.05,
+                          color: Color.fromRGBO(140, 91, 48, 1)
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+                new GestureDetector(
+                  onTap: (){
+                    print("signin row clicked");
+                    yadaState.changeCurrentPage("/signin");
+                    yadaState.changeWriterStatus('closed');
+                    widget.changeMenuState('close');
+                  },
+                  child: new Row( // Replace with a Row for horizontal icon + text
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      new Padding(padding:EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0)),
+                      new AnimatedOpacity(
+                        duration: Duration(milliseconds: 500),
+                        opacity: yadaState.getCurrentPage()=='/signin'?1.0:0.0,
+                        child: new Icon(
+                          MdiIcons.login, 
+                          color: Color.fromRGBO(217, 191, 160, 1)
+                        ), 
+                      ),
+                      new Padding(padding:EdgeInsets.fromLTRB(5.0, 0.0, 00.0, 0)),
+                      new Text(
+                        "Sign-In", 
+                        style: TextStyle(
+                          fontFamily: 'Signpainter',
+                          fontSize: height*.05,
+                          color: Color.fromRGBO(140, 91, 48, 1)
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+                new GestureDetector(
+                  onTap: (){
+                    print("connections row clicked");
+                    yadaState.changeCurrentPage("/connections");
+                    yadaState.changeWriterStatus('closed');
+                    widget.changeMenuState('close');
+                  },
+                  child: new Row( // Replace with a Row for horizontal icon + text
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      new Padding(padding:EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0)),
+                      new AnimatedOpacity(
+                        duration: Duration(milliseconds: 500),
+                        opacity: yadaState.getCurrentPage()=='/connections'?1.0:0.0,
+                        child: new Icon(
+                          MdiIcons.consoleNetwork, 
+                          color: Color.fromRGBO(217, 191, 160, 1)
+                        ), 
+                      ),
+                      new Padding(padding:EdgeInsets.fromLTRB(5.0, 0.0, 00.0, 0)),
+                      new Text(
+                        "Connections", 
                         style: TextStyle(
                           fontFamily: 'Signpainter',
                           fontSize: height*.05,
