@@ -12,8 +12,7 @@ import 'package:yaddayaddayadda/state/yadaState.dart';
 import 'package:provider/provider.dart';
 
 class ShadowDrawer extends StatefulWidget{
-  ShadowDrawer({@required this.fadeBackground, @required this.fadeIgnorePointer});
-  final bool fadeIgnorePointer;
+  ShadowDrawer({@required this.fadeBackground});
   final bool fadeBackground;
 
   @override
@@ -21,7 +20,6 @@ class ShadowDrawer extends StatefulWidget{
 }
 
 class _ShadowDrawer extends State<ShadowDrawer> {
-
 
 @override
 void initState() {
@@ -37,20 +35,20 @@ void dispose() {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    if(widget.fadeIgnorePointer){
-      print('inside widget.fadeIngorePointer is true');
-      return Container();
-    }else{
-      return Align(
-        alignment: Alignment.bottomRight,
-        child: AnimatedContainer(
+    double rightInset = widget.fadeBackground?0.0:0.5*width;
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: new AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        transform: Matrix4.translationValues(rightInset, 0.0, 0.0),
+        child: new AnimatedContainer(
           duration: Duration(milliseconds: 500),
           color: widget.fadeBackground?Color.fromRGBO(100, 100, 100, 0.5):Color.fromRGBO(100, 100, 100, 0.0),
           height: 0.9*height,
           width: 0.5*width
         )
-      );
-    }
+      )
+    );
   }
 }
 
@@ -290,20 +288,10 @@ class _Home extends State<Home>{
       setState(() {
         fadeBackground = false;
       });
-      Future.delayed(Duration(milliseconds: 300), (){
-        setState(() {
-          fadeIgnorePointer = true;
-        });
-      });
     }else if(stateVal=='open'){
       setState(() {
         menuOpen = true;
-      });
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          fadeBackground = true;
-          fadeIgnorePointer = false;
-        });
+        fadeBackground = true;
       });
     }
   }
@@ -361,7 +349,7 @@ class _Home extends State<Home>{
                 children: <Widget>[
                   new MiddleHome(),
                   new Writer(),
-                  new ShadowDrawer(fadeBackground: this.fadeBackground, fadeIgnorePointer: this.fadeIgnorePointer),
+                  new ShadowDrawer(fadeBackground: this.fadeBackground),
                   new DrawerMenu(menuOpen: this.menuOpen, changeMenuState: (stateVal)=>this.changeMenuState(stateVal)),
                   Align(
                     alignment: Alignment.bottomLeft,

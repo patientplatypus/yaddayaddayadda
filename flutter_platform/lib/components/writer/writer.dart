@@ -125,7 +125,7 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
         child: new AnimatedContainer(
           duration: Duration(milliseconds: 300),
           height: widget.optionOpen==widget.buttonName?0.4*widget.constraintsHeight:50.0,
-          width: widget.optionOpen==widget.buttonName?0.75*widget.constraintsWidth:50.0,
+          width: widget.optionOpen==widget.buttonName?widget.constraintsWidth - 100:50.0,
           padding: paddingFunc(),
           child: new AnimatedContainer(
             duration: new Duration(milliseconds: 300),
