@@ -6,6 +6,12 @@ import 'package:yaddayaddayadda/state/yadaState.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
+import 'package:yaddayaddayadda/components/writer/optionsBox/cameraOptions.dart';
+import 'package:yaddayaddayadda/components/writer/optionsBox/exitOptions.dart';
+import 'package:yaddayaddayadda/components/writer/optionsBox/profileOptions.dart';
+import 'package:yaddayaddayadda/components/writer/optionsBox/settingsOptions.dart';
+import 'package:yaddayaddayadda/components/writer/writerFuncs.dart';
+
 
 class OptionsButton extends StatefulWidget{
   OptionsButton({
@@ -39,7 +45,7 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState(); 
-    if(widget.buttonName=='avatar'){
+    if(widget.buttonName=='profile'){
       setState(() {
         topVal = 5.0;
         leftVal = 5.0;
@@ -95,7 +101,7 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
     print('inside paddingFunc() and value of yadaState');
     print(widget.optionOpen);
     // print(yadaState.getMessageOptionsBox().optionOpen);
-    if(widget.buttonName=='avatar'){
+    if(widget.buttonName=='profile'){
       return EdgeInsets.fromLTRB(widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0);
     }else if(widget.buttonName=='settings'){
       return EdgeInsets.fromLTRB(widget.optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0, widget.optionOpen==widget.buttonName?10.0:0.0);
@@ -103,6 +109,18 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
       return EdgeInsets.fromLTRB(0.0, widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0, 0.0);
     }else if(widget.buttonName=='exit'){
       return EdgeInsets.fromLTRB(0.0, 0.0, widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0);
+    }
+  }
+
+  optionsRouter(){
+    if (widget.buttonName=='camera'){
+      return CameraOptions();
+    }else if(widget.buttonName=='exit'){
+      return ExitOptions();
+    }else if(widget.buttonName=='profile'){
+      return ProfileOptions();
+    }else if(widget.buttonName=='settings'){
+      return SettingsOptions();
     }
   }
   
@@ -131,9 +149,10 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
             duration: new Duration(milliseconds: 300),
             decoration: new BoxDecoration(
               borderRadius: widget.optionOpen==widget.buttonName?new BorderRadius.all(const Radius.circular(20.0)):new BorderRadius.all(const Radius.circular(50.0)),
-              color: widget.optionOpen==widget.buttonName?buttonColorFunc('edgeIcon', 'brown'): buttonColorFunc('edgeIcon', 'orange'),
+              // color: widget.optionOpen==widget.buttonName?buttonColorFunc('edgeIcon', 'brown'): buttonColorFunc('edgeIcon', 'orange'),
+              //NO LONGER NEEDED - TAKEN CARE OF IN OPTIONSBOX FOLDER
             ),
-            child: widget.optionOpen==widget.buttonName?new Text("hello there ${widget.buttonName}"):new Container()
+            child: optionsRouter()
           )
         )
       )
@@ -551,7 +570,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                           constraintsWidth: constraints.maxWidth
                         ),
                         new OptionsButton(
-                          buttonName: 'avatar', 
+                          buttonName: 'profile', 
                           changeMessageOptionsBox: (newMessageOption){
                             yadaState.changeMessageOptionsBox(newMessageOption);
                             setState((){});
