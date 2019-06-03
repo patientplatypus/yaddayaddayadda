@@ -391,12 +391,12 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
     var focusMessage = new FocusNode();
     FocusScope.of(context).requestFocus(focusMessage);
 
-    if(yadaState.getWriterStatus()=='homeMessage1'){
+    if(yadaState.getHomeStatus()=='writemessage'){
       return Align(
         alignment: Alignment.topLeft,
         child: new LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints){
-            print('inside layoutBuilder and value of contraints:');
+            print('inside layoutBuilder and value of constraints:');
             print(constraints.maxHeight);
             return new Stack(
               fit: StackFit.expand,

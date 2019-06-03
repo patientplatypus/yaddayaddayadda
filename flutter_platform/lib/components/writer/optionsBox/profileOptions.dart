@@ -21,8 +21,19 @@ class _ProfileOptions extends State<ProfileOptions> {
   
   double iconOpacity = 1;
   double boxOpacity = 0;
+  
+  @override
+  void initState() {
+    super.initState(); 
+  }
 
- optionOpenHandler(optionOpen, changeOpen){
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
+  optionOpenHandler(optionOpen, changeOpen){
     return optionOpen=='profile'?AnimatedOpacity(
       opacity: boxOpacity,
       duration: Duration(milliseconds: 500),

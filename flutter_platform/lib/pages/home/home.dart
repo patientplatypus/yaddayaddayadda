@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:yaddayaddayadda/components/footer/footer.dart';
 import 'package:yaddayaddayadda/components/middle/middlehome.dart';
+import 'package:yaddayaddayadda/components/pictureTaker/pictureTaker.dart';
 import 'package:yaddayaddayadda/components/writer/writer.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -117,7 +118,7 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("Home row clicked");
                     yadaState.changeCurrentPage("/home");
-                    yadaState.changeWriterStatus('close');
+                    yadaState.changeHomeStatus('close');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
@@ -148,7 +149,7 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("signin row clicked");
                     yadaState.changeCurrentPage("/signin");
-                    yadaState.changeWriterStatus('closed');
+                    yadaState.changeHomeStatus('closed');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
@@ -179,7 +180,7 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("connections row clicked");
                     yadaState.changeCurrentPage("/connections");
-                    yadaState.changeWriterStatus('closed');
+                    yadaState.changeHomeStatus('closed');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
@@ -210,7 +211,7 @@ class _DrawerMenu extends State<DrawerMenu> {
                   onTap: (){
                     print("About row clicked");
                     yadaState.changeCurrentPage("/about");
-                    yadaState.changeWriterStatus('close');
+                    yadaState.changeHomeStatus('close');
                     widget.changeMenuState('close');
                   },
                   child: new Row( // Replace with a Row for horizontal icon + text
@@ -349,6 +350,7 @@ class _Home extends State<Home>{
                 children: <Widget>[
                   new MiddleHome(),
                   new Writer(),
+                  new PictureTaker(),
                   new ShadowDrawer(fadeBackground: this.fadeBackground),
                   new DrawerMenu(menuOpen: this.menuOpen, changeMenuState: (stateVal)=>this.changeMenuState(stateVal)),
                   Align(

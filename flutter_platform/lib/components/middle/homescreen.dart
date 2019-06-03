@@ -27,18 +27,30 @@ class _HomeScreen extends State<HomeScreen> {
     final yadaState = Provider.of<YadaState>(context);
 
     return Container(
-      child: new Row(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           new RaisedButton(
             onPressed: (){
-              yadaState.changeWriterStatus("homeMessage1");
+              yadaState.changeHomeStatus("writemessage");
             },
             child: Text(
               'Write Message',
               style: TextStyle(fontSize: 20)
             ),
             color: Color.fromRGBO(130, 130, 130, 1),
-          )
+          ), 
+          new RaisedButton(
+            onPressed: (){
+              yadaState.changeHomeStatus("takepicture");
+            },
+            child: Text(
+              'Take Picture',
+              style: TextStyle(fontSize: 20)
+            ),
+            color: Color.fromRGBO(130, 130, 130, 1),
+          ), 
         ]
       ),
       width: width

@@ -22,6 +22,17 @@ class _SettingsOptions extends State<SettingsOptions> {
   double iconOpacity = 1;
   double boxOpacity = 0;
 
+  @override
+  void initState() {
+    super.initState(); 
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   optionOpenHandler(optionOpen, changeOpen){
     return optionOpen=='settings'?AnimatedOpacity(
       opacity: boxOpacity,

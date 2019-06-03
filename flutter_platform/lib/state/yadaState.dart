@@ -61,10 +61,10 @@ class YadaState with ChangeNotifier {
     notifyListeners();
   }
 
-  String writerStatus = "closed";
-  getWriterStatus() => writerStatus;
-  void changeWriterStatus(newStatus){
-    writerStatus=newStatus;
+  String homeStatus = "closed";
+  getHomeStatus() => homeStatus;
+  void changeHomeStatus(newStatus){
+    homeStatus=newStatus;
     notifyListeners();
   }
 

@@ -1,6 +1,8 @@
 PODS:
   - "!ProtoCompiler (3.7.0)":
     - Protobuf (~> 3.0)
+  - camera (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_blue (0.0.1):
     - "!ProtoCompiler"
@@ -17,6 +19,7 @@ PODS:
   - Reachability (3.2)
 
 DEPENDENCIES:
+  - camera (from `.symlinks/plugins/camera/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
   - keyboard_visibility (from `.symlinks/plugins/keyboard_visibility/ios`)
@@ -28,6 +31,8 @@ SPEC REPOS:
     - Reachability
 
 EXTERNAL SOURCES:
+  camera:
+    :path: ".symlinks/plugins/camera/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
   flutter_blue:
@@ -37,6 +42,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   "!ProtoCompiler": efc8ba4dceb16b48f6b366a08500871c8d3ff8d2
+  camera: d56ad165545ae5a0ffb892376033760a969c68c8
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_blue: e055b6960f24daa4dee2bb548eb5f6f681880d45
   keyboard_visibility: 96a24de806fe6823c3ad956c01ba2ec6d056616f

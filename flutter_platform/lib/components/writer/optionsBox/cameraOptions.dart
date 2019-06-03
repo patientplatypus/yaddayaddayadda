@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,20 @@ class CameraOptions extends StatefulWidget{
 }
 
 class _CameraOptions extends State<CameraOptions> {
-
+  
   double iconOpacity = 1;
   double boxOpacity = 0;
+
+  @override
+  void initState() {
+    super.initState(); 
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   optionOpenHandler(optionOpen, changeOpen){
     return optionOpen=='camera'?AnimatedOpacity(
@@ -49,7 +61,6 @@ class _CameraOptions extends State<CameraOptions> {
                         style: TextStyle(
                           fontFamily: 'Signpainter',
                           fontSize: 0.2*constraints.maxHeight,
-                          // color: Color.fromRGBO(140, 91, 48, 1)
                         ),
                       ),
                     )
@@ -72,7 +83,8 @@ class _CameraOptions extends State<CameraOptions> {
                 children: <Widget>[
                   Container(
                     height: 0.65*constraints.maxHeight,
-                    color: Colors.teal,
+                    width: constraints.maxWidth,
+                    padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
                     child: Text('moo'),
                   )
                 ],
@@ -114,10 +126,9 @@ class _CameraOptions extends State<CameraOptions> {
       });
     }
   }
-    
+
   @override
   Widget build(BuildContext context) {
-
     final yadaState = Provider.of<YadaState>(context);
     String optionOpen = yadaState.getMessageOptionsBox().optionOpen;
     Function changeOpen = (newMessageOption) => yadaState.changeMessageOptionsBox(newMessageOption);

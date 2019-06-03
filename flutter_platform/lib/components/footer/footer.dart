@@ -14,7 +14,7 @@ class Footer extends StatelessWidget{
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    if(yadaState.getWriterStatus()!='closed'&&yadaState.getWriterStatus()!='close'){
+    if(yadaState.getHomeStatus()!='closed'&&yadaState.getHomeStatus()!='close'){
       return Container();
     }else{
       return Container(

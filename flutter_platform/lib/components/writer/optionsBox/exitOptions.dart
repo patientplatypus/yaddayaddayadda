@@ -23,6 +23,17 @@ class _ExitOptions extends State<ExitOptions> {
   double iconOpacity = 1;
   double boxOpacity = 0;
 
+  @override
+  void initState() {
+    super.initState(); 
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   optionOpenHandler(optionOpen, changeOpen){
     return optionOpen=='exit'?AnimatedOpacity(
       opacity: boxOpacity,
