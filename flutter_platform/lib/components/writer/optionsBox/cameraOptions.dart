@@ -21,12 +21,6 @@ class _CameraOptions extends State<CameraOptions> {
 
   double iconOpacity = 1;
   double boxOpacity = 0;
-  bool rebuild = false;
-
-  @override
-  void initState(){
-   
-  }
 
   optionOpenHandler(optionOpen, changeOpen){
     return optionOpen=='camera'?AnimatedOpacity(
