@@ -18,15 +18,11 @@ class OptionsButton extends StatefulWidget{
     @required this.buttonName, 
     @required this.constraintsHeight, 
     @required this.constraintsWidth,
-    @required this.optionOpen,
-    @required this.optionOpenFade,
     @required this.changeMessageOptionsBox,
     });
   final String buttonName;
   final double constraintsHeight;
   final double constraintsWidth;
-  final String optionOpen;
-  final String optionOpenFade;
   final Function changeMessageOptionsBox;
   @override
   _OptionsButton createState() => _OptionsButton();
@@ -34,7 +30,7 @@ class OptionsButton extends StatefulWidget{
 
 class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
 
-  bool rebuild = false;
+  bool rebuildOptionsButton = false;
   bool forwardAnim = false;
 
   double topVal;
@@ -74,59 +70,59 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
     super.dispose();
   }    
 
-  buttonColorFunc(buttonColorType, localButtonColor){
-    if(buttonColorType=='background'){
-    }else if(buttonColorType=='text'){
-       if(localButtonColor=='red'){
-        return Color.fromRGBO(13, 13, 13, 1.0);
-      }else if(localButtonColor=='green'){
-        return Color.fromRGBO(242, 242, 242, 1.0);
-      }
-    }else if(buttonColorType=='border'){
-      if(localButtonColor=='red'){
-        return Color.fromRGBO(89, 24, 10, 1.0);
-      }else if(localButtonColor=='green'){
-       return Color.fromRGBO(13, 89, 2, 1.0);
-      }
-    }else if(buttonColorType=='edgeIcon'){
-      if(localButtonColor=='orange'){
-        return Color.fromRGBO(140, 91, 48, 1.0);
-      }else if(localButtonColor=='brown'){
-       return Color.fromRGBO(64, 45, 34, 1.0);
-      }
-    }
-  }
-
-  paddingFunc(){
+  paddingFunc(optionOpen){
     print('inside paddingFunc() and value of yadaState');
-    print(widget.optionOpen);
+    print(optionOpen);
     // print(yadaState.getMessageOptionsBox().optionOpen);
     if(widget.buttonName=='profile'){
-      return EdgeInsets.fromLTRB(widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0);
+      return EdgeInsets.fromLTRB(optionOpen==widget.buttonName?10.0:0.0, optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0);
     }else if(widget.buttonName=='settings'){
-      return EdgeInsets.fromLTRB(widget.optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0, widget.optionOpen==widget.buttonName?10.0:0.0);
+      return EdgeInsets.fromLTRB(optionOpen==widget.buttonName?10.0:0.0, 0.0, 0.0, optionOpen==widget.buttonName?10.0:0.0);
     }else if(widget.buttonName=='camera'){
-      return EdgeInsets.fromLTRB(0.0, widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0, 0.0);
+      return EdgeInsets.fromLTRB(0.0, optionOpen==widget.buttonName?10.0:0.0, optionOpen==widget.buttonName?10.0:0.0, 0.0);
     }else if(widget.buttonName=='exit'){
-      return EdgeInsets.fromLTRB(0.0, 0.0, widget.optionOpen==widget.buttonName?10.0:0.0, widget.optionOpen==widget.buttonName?10.0:0.0);
+      return EdgeInsets.fromLTRB(0.0, 0.0, optionOpen==widget.buttonName?10.0:0.0, optionOpen==widget.buttonName?10.0:0.0);
     }
   }
 
   optionsRouter(){
+    Function callBackFunc = ()=>
+    setState(() {
+      rebuildOptionsButton = !rebuildOptionsButton;
+    });
     if (widget.buttonName=='camera'){
-      return CameraOptions();
+      return CameraOptions(rebuildCallback: ()=>
+        setState(() {
+          rebuildOptionsButton = !rebuildOptionsButton;
+        })
+      );
     }else if(widget.buttonName=='exit'){
-      return ExitOptions();
+      return ExitOptions(rebuildCallback: ()=>
+        setState(() {
+          rebuildOptionsButton = !rebuildOptionsButton;
+        })
+      );
     }else if(widget.buttonName=='profile'){
-      return ProfileOptions();
+      return ProfileOptions(rebuildCallback: ()=>
+        setState(() {
+          rebuildOptionsButton = !rebuildOptionsButton;
+        })
+      );
     }else if(widget.buttonName=='settings'){
-      return SettingsOptions();
+      return SettingsOptions(rebuildCallback: ()=>
+        setState(() {
+          rebuildOptionsButton = !rebuildOptionsButton;
+        })
+      );
     }
   }
   
   @override
   Widget build(BuildContext context) {
-
+    
+    final yadaState = Provider.of<YadaState>(context);
+    String optionOpen = yadaState.getMessageOptionsBox().optionOpen;
+    
     return new Positioned(
       top: topVal,
       left: leftVal,
@@ -137,18 +133,18 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
           print("Options Button Class gesture detected~");
           widget.changeMessageOptionsBox(widget.buttonName);
           setState(() {
-            rebuild = !rebuild;
+            rebuildOptionsButton = !rebuildOptionsButton;
           });
         },
         child: new AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          height: widget.optionOpen==widget.buttonName?0.4*widget.constraintsHeight:50.0,
-          width: widget.optionOpen==widget.buttonName?widget.constraintsWidth - 100:50.0,
-          padding: paddingFunc(),
+          height: optionOpen==widget.buttonName?0.4*widget.constraintsHeight:50.0,
+          width: optionOpen==widget.buttonName?widget.constraintsWidth - 100:50.0,
+          padding: paddingFunc(optionOpen),
           child: new AnimatedContainer(
             duration: new Duration(milliseconds: 300),
             decoration: new BoxDecoration(
-              borderRadius: widget.optionOpen==widget.buttonName?new BorderRadius.all(const Radius.circular(20.0)):new BorderRadius.all(const Radius.circular(50.0)),
+              borderRadius: optionOpen==widget.buttonName?new BorderRadius.all(const Radius.circular(20.0)):new BorderRadius.all(const Radius.circular(50.0)),
               // color: widget.optionOpen==widget.buttonName?buttonColorFunc('edgeIcon', 'brown'): buttonColorFunc('edgeIcon', 'orange'),
               //NO LONGER NEEDED - TAKEN CARE OF IN OPTIONSBOX FOLDER
             ),
@@ -337,35 +333,6 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
     print("keyboard submit happened");
   }
 
-  buttonColorFunc(buttonColorType, localButtonColor){
-    if(buttonColorType=='background'){
-      //unnecessary - gradient covers this case...
-      // if(this.buttonColor=='red'){
-      //   return Color.fromRGBO(166, 33, 33, 1.0);
-      // }else if(this.buttonColor=='green'){
-      //   return Color.fromRGBO(6, 115, 2, 1.0);
-      // }
-    }else if(buttonColorType=='text'){
-       if(localButtonColor=='red'){
-        return Color.fromRGBO(13, 13, 13, 1.0);
-      }else if(localButtonColor=='green'){
-        return Color.fromRGBO(242, 242, 242, 1.0);
-      }
-    }else if(buttonColorType=='border'){
-      if(localButtonColor=='red'){
-        return Color.fromRGBO(89, 24, 10, 1.0);
-      }else if(localButtonColor=='green'){
-       return Color.fromRGBO(13, 89, 2, 1.0);
-      }
-    }else if(buttonColorType=='edgeIcon'){
-      if(localButtonColor=='orange'){
-        return Color.fromRGBO(140, 91, 48, 1.0);
-      }else if(localButtonColor=='brown'){
-       return Color.fromRGBO(64, 45, 34, 1.0);
-      }
-    }
-  }
-
   handleGradientFunc(){
     if('${this.messageButtonColor}'=='green'){
       if(this.buttonDown){
@@ -417,6 +384,9 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
     double height = MediaQuery.of(context).size.height;
     final yadaState = Provider.of<YadaState>(context);
     bool bounceDetect = false;
+
+    Function optionOpen = () => yadaState.getMessageOptionsBox().optionOpen;
+    Function optionOpenFade = () => yadaState.getMessageOptionsBox().optionOpenFade;
 
     var focusMessage = new FocusNode();
     FocusScope.of(context).requestFocus(focusMessage);
@@ -516,7 +486,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                                       decoration: new BoxDecoration(
                                         borderRadius: new BorderRadius.all(const Radius.circular(20.0)),
                                         border: new Border.all(
-                                          color: buttonColorFunc('border', this.messageButtonColor), 
+                                          color: WriterFuncs.buttonColorFunc('border', this.messageButtonColor), 
                                           width: 5.0
                                         ),
                                         gradient: handleGradientFunc()
@@ -535,7 +505,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                                               fontFamily: 'Americantypewriter',
                                               fontSize: 12.0,
                                               fontWeight: FontWeight.bold,
-                                              color: buttonColorFunc('text', this.messageButtonColor)
+                                              color: WriterFuncs.buttonColorFunc('text', this.messageButtonColor)
                                             ),
                                           ),
                                         )
@@ -553,8 +523,6 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                             yadaState.changeMessageOptionsBox(newMessageOption);
                             setState((){});
                           },
-                          optionOpen: yadaState.getMessageOptionsBox().optionOpen,
-                          optionOpenFade: yadaState.getMessageOptionsBox().optionOpenFade,
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
                         ),
@@ -564,8 +532,6 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                             yadaState.changeMessageOptionsBox(newMessageOption);
                             setState((){});
                           },
-                          optionOpen: yadaState.getMessageOptionsBox().optionOpen,
-                          optionOpenFade: yadaState.getMessageOptionsBox().optionOpenFade,
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
                         ),
@@ -575,8 +541,6 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                             yadaState.changeMessageOptionsBox(newMessageOption);
                             setState((){});
                           },
-                          optionOpen: yadaState.getMessageOptionsBox().optionOpen,
-                          optionOpenFade: yadaState.getMessageOptionsBox().optionOpenFade,
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
                         ),
@@ -586,8 +550,6 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                             yadaState.changeMessageOptionsBox(newMessageOption);
                             setState((){});
                           },
-                          optionOpen: yadaState.getMessageOptionsBox().optionOpen,
-                          optionOpenFade: yadaState.getMessageOptionsBox().optionOpenFade,
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
                         )

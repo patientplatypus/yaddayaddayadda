@@ -8,23 +8,60 @@ import 'package:yaddayaddayadda/components/writer/writerFuncs.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ExitOptions extends StatefulWidget{
-  
+  ExitOptions({
+    @required this.rebuildCallback
+  });
+  final Function rebuildCallback;
   @override
   _ExitOptions createState() => _ExitOptions();
 }
 
 class _ExitOptions extends State<ExitOptions> {
   
-  optionOpenHandler(optionOpenVal){
-    if(optionOpenVal=='open'){
-      return Container();
-    }else if(optionOpenVal=='closed'){
-      return Container(
+  double iconOpacity = 1;
+  double boxOpacity = 0;
+
+  optionOpenHandler(optionOpen){
+    return optionOpen=='exit'?AnimatedOpacity(
+      opacity: boxOpacity,
+      duration: Duration(milliseconds: 500),
+      child: new Container(
+        child: Text("hello there animated exit options"),
+        decoration: BoxDecoration(
+          color: Colors.purple
+        ),
+      )
+    ):Container(
+      child: new AnimatedOpacity(
+        duration: Duration(milliseconds: 300),
+        opacity: iconOpacity,
         child: new Icon(
           MdiIcons.exitToApp,
-          color: writerFuncs.buttonColorFunc('options', 'brown')
+          color: WriterFuncs.buttonColorFunc('options', 'brown')
         )
-      );
+      )
+    );
+  }
+
+    delayOptionHandler(optionOpen){
+    if(optionOpen=='exit'){
+      setState(() {
+        iconOpacity=0;
+      });
+      Future.delayed(Duration(milliseconds: 500),(){
+        setState(() {
+          boxOpacity=1;
+        });
+      });
+    }else{
+      setState(() {
+        boxOpacity=0;
+      });
+      Future.delayed(Duration(milliseconds: 500),(){
+        setState(() {
+          iconOpacity=1;
+        });
+      });
     }
   }
 
@@ -32,11 +69,13 @@ class _ExitOptions extends State<ExitOptions> {
   Widget build(BuildContext context) {
     final yadaState = Provider.of<YadaState>(context);
     String optionOpen = yadaState.getMessageOptionsBox().optionOpen;
-    String optionOpenFade = yadaState.getMessageOptionsBox().optionOpenFade;
+
+    delayOptionHandler(optionOpen);
+
     return Container(
-      child: optionOpen=='exit'?optionOpenHandler('open'):optionOpenHandler('closed'),
+      child: optionOpenHandler(optionOpen),
       decoration: new BoxDecoration(
-        color: optionOpen=="exit"?writerFuncs.buttonColorFunc('options', 'brown'):writerFuncs.buttonColorFunc('options', 'orange'),
+        color: optionOpen=="exit"?WriterFuncs.buttonColorFunc('options', 'brown'):WriterFuncs.buttonColorFunc('options', 'orange'),
         borderRadius: optionOpen == "exit"? new BorderRadius.all(const Radius.circular(20.0)):new BorderRadius.all(const Radius.circular(50.0))
       ),
     );

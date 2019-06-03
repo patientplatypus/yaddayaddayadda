@@ -2,16 +2,18 @@
 import 'package:flutter/material.dart';
 
 
-class writerFuncs{
+class WriterFuncs{
+  static headlineColorFunc(headlineColorType, localHeadlineColor){
+    if(headlineColorType=='option'){
+      if(localHeadlineColor=='base'){
+        return Color.fromRGBO(242, 140, 15, 1);
+      }else if(localHeadlineColor=='highlight'){
+        return Color.fromRGBO(217, 156, 43, 0.75);
+      }
+    }
+  }
   static buttonColorFunc(buttonColorType, localButtonColor){
-    if(buttonColorType=='background'){
-      //unnecessary - gradient covers this case...
-      // if(this.buttonColor=='red'){
-      //   return Color.fromRGBO(166, 33, 33, 1.0);
-      // }else if(this.buttonColor=='green'){
-      //   return Color.fromRGBO(6, 115, 2, 1.0);
-      // }
-    }else if(buttonColorType=='text'){
+    if(buttonColorType=='text'){
        if(localButtonColor=='red'){
         return Color.fromRGBO(13, 13, 13, 1.0);
       }else if(localButtonColor=='green'){
