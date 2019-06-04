@@ -42,25 +42,25 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
   void initState() {
     super.initState(); 
     if(widget.buttonName=='profile'){
-      setState(() {
+      mounted?setState(() {
         topVal = 5.0;
         leftVal = 5.0;
-      });
+      }):null;
     }else if(widget.buttonName=='settings'){
-      setState(() {
+      mounted?setState(() {
         leftVal = 5.0;
         bottomVal = 60;
-      });
+      }):null;
     }else if(widget.buttonName=='exit'){
-      setState(() {
+      mounted?setState(() {
         rightVal = 5.0;
         bottomVal = 60.0;
-      });
+      }):null;
     }else if(widget.buttonName=='camera'){
-      setState(() {
+      mounted?setState(() {
         rightVal = 5.0;
         topVal = 5.0;
-      });
+      }):null;
     }
   }
 
@@ -86,33 +86,29 @@ class _OptionsButton extends State<OptionsButton> with TickerProviderStateMixin{
   }
 
   optionsRouter(){
-    Function callBackFunc = ()=>
-    setState(() {
-      rebuildOptionsButton = !rebuildOptionsButton;
-    });
     if (widget.buttonName=='camera'){
       return CameraOptions(rebuildCallback: ()=>
-        setState(() {
+        mounted?setState(() {
           rebuildOptionsButton = !rebuildOptionsButton;
-        })
+        }):null
       );
     }else if(widget.buttonName=='exit'){
       return ExitOptions(rebuildCallback: ()=>
-        setState(() {
+        mounted?setState(() {
           rebuildOptionsButton = !rebuildOptionsButton;
-        })
+        }):null
       );
     }else if(widget.buttonName=='profile'){
       return ProfileOptions(rebuildCallback: ()=>
-        setState(() {
+         mounted?setState(() {
           rebuildOptionsButton = !rebuildOptionsButton;
-        })
+        }):null
       );
     }else if(widget.buttonName=='settings'){
       return SettingsOptions(rebuildCallback: ()=>
-        setState(() {
+        mounted?setState(() {
           rebuildOptionsButton = !rebuildOptionsButton;
-        })
+        }):null
       );
     }
   }
@@ -181,15 +177,15 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
 
   buttonOpacityHandler(textTypeVal){
     if(textType!=textTypeVal){
-      setState(() {
+      mounted?setState(() {
         buttonOpacity=0.0;
         // showOpacity=true;
-      });
+      }):null;
       Future.delayed(const Duration(milliseconds: 300), () {
-        setState(() {
+        mounted?setState(() {
           buttonOpacity=1.0;
           // showOpacity=true;
-        });
+        }):null;
       });
     }
   }
@@ -210,72 +206,72 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
       var charsLeft = 250 - text.length;
       if(charsLeft < 0){
         if(textType!='length'){
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=0.0;
-          });
+          }):null;
           Future.delayed(const Duration(milliseconds: 300), () {
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=1.0;
               textType = 'length';
               messageText = text;
               messageButtonText = '${(text.length - 250).toString()} chars too long!';
               messageButtonColor = 'red';
-            });
+            }):null;
           });
         }else{
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=1.0;
             textType = 'length';
             messageText = text;
             messageButtonText = '${(text.length - 250).toString()} chars too long!';
             messageButtonColor = 'red';
-          });
+          }):null;
         }
       }else if(charsLeft==250){
         if(textType!='greeting'){
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=0.0;
-          });
+          }):null;
           Future.delayed(const Duration(milliseconds: 300), () {
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=1.0;
               messageText = text;
               textType = "greeting";
               messageButtonText = 'Enter Message!';
               messageButtonColor = 'green';
-            });
+            }):null;
           });
         }else{
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=1.0;
             messageText = text;
             textType = "greeting";
             messageButtonText = 'Enter Message!';
             messageButtonColor = 'green';
-          });
+          }):null;
         }
       }else if(charsLeft>=0){
         if(textType!='length'){
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=0.0;
-          });
+          }):null;
           Future.delayed(const Duration(milliseconds: 300), () {
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=1.0;
               messageText = text;
               textType = "length";
               messageButtonText = '${(250 - text.length).toString()} chars left!';
               messageButtonColor = 'green';
-            });
+            }):null;
           });
         }else{
-          setState(() {
+          mounted?setState(() {
             buttonOpacity=1.0;
             messageText = text;
             textType = "length";
             messageButtonText = '${(250 - text.length).toString()} chars left!';
             messageButtonColor = 'green';
-          });
+          }):null;
         }
       }
       if (_debounce?.isActive ?? false) _debounce.cancel();
@@ -283,45 +279,45 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
         print("debounce has fired!~");
         if(charsLeft<0){
           if(textType!='warning'){
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=0.0;
-            });
+            }):null;
             Future.delayed(const Duration(milliseconds: 300), () {
-              setState(() {
+              mounted?setState(() {
                 buttonOpacity=1.0;
                 textType = "warning";
                 messageButtonText = 'Message too long!';
                 messageButtonColor = 'red';
-              });
+              }):null;
             });
           }else{
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=1.0;
               textType = "warning";
               messageButtonText = 'Message too long!';
               messageButtonColor = 'red';
-            });
+            }):null;
           }
         }else if(charsLeft>=0){
           if(textType!='send'){
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=0.0;
-            });
+            }):null;
             Future.delayed(const Duration(milliseconds: 300), () {
-              setState(() {
+              mounted?setState(() {
                 buttonOpacity=1.0;
                 textType = "send";
                 messageButtonText = 'Broadcast Message!';
                 messageButtonColor = 'green';
-              });
+              }):null;
             });
           }else{
-            setState(() {
+            mounted?setState(() {
               buttonOpacity=1.0;
               textType = "send";
               messageButtonText = 'Broadcast Message!';
               messageButtonColor = 'green';
-            });
+            }):null;
           }
         }
       });
@@ -471,15 +467,15 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                                     },
                                     onTapDown: (TapDownDetails details) {
                                       print("inside onTapDown");
-                                      setState(() {
+                                      mounted?setState(() {
                                         buttonDown=true;
-                                      });
+                                      }):null;
                                     },
                                     onTapUp: (TapUpDetails details) {
                                       print("inside onTapUp");
-                                      setState(() {
+                                      mounted?setState(() {
                                         buttonDown=false;
-                                      });
+                                      }):null;
                                     },
                                     child: AnimatedContainer(
                                       duration: Duration(milliseconds: 300),
@@ -521,7 +517,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                           buttonName: 'exit', 
                           changeMessageOptionsBox: (newMessageOption){
                             yadaState.changeMessageOptionsBox(newMessageOption);
-                            setState((){});
+                            mounted?setState((){}):null;
                           },
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
@@ -530,7 +526,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                           buttonName: 'camera', 
                           changeMessageOptionsBox: (newMessageOption){
                             yadaState.changeMessageOptionsBox(newMessageOption);
-                            setState((){});
+                            mounted?setState((){}):null;
                           },
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
@@ -539,7 +535,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                           buttonName: 'profile', 
                           changeMessageOptionsBox: (newMessageOption){
                             yadaState.changeMessageOptionsBox(newMessageOption);
-                            setState((){});
+                            mounted?setState((){}):null;
                           },
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth
@@ -548,7 +544,7 @@ class _Writer extends State<Writer> with TickerProviderStateMixin {
                           buttonName: 'settings', 
                           changeMessageOptionsBox: (newMessageOption){
                             yadaState.changeMessageOptionsBox(newMessageOption);
-                            setState((){});
+                            mounted?setState((){}):null;
                           },
                           constraintsHeight: constraints.maxHeight,
                           constraintsWidth: constraints.maxWidth

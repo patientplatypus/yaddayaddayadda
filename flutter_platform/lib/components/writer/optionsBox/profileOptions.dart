@@ -104,24 +104,24 @@ class _ProfileOptions extends State<ProfileOptions> {
     );
   }
 
-  delayOptionHandler(optionOpen){
+   delayOptionHandler(optionOpen){
     if(optionOpen=='profile'){
-      setState(() {
+      mounted?setState(() {
         iconOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           boxOpacity=1;
-        });
+        }):null;
       });
     }else{
-      setState(() {
+      mounted?setState(() {
         boxOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           iconOpacity=1;
-        });
+        }):null;
       });
     }
   }

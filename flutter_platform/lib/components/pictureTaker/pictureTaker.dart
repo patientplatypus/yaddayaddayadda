@@ -19,10 +19,17 @@ class _PictureTaker extends State<PictureTaker>{
   @override
   void initState() {
     super.initState();
+    print('inside Picture Taker initState');
+
     setupCameras();
   }
 
   cameraPreview() {
+    print('inside cameraPreview in pictureTaker'); 
+    print('value of isReady: ');
+    print(isReady);
+    print('value of controller:');
+    print(controller);
     if (!isReady || !controller.value.isInitialized) {
       return Container();
     }
@@ -49,7 +56,9 @@ class _PictureTaker extends State<PictureTaker>{
   @override
   Widget build(BuildContext context) {
     final yadaState = Provider.of<YadaState>(context);
-    if(yadaState.getHomeStatus()=='writemessage'){
+    print('value of yadaState.getHomeStatus in picturetaker: ');
+    print(yadaState.getHomeStatus());
+    if(yadaState.getHomeStatus()=='takepicture'){
       return Container(
         child: cameraPreview()
       );

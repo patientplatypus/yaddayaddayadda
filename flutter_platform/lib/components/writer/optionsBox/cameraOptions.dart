@@ -34,7 +34,7 @@ class _CameraOptions extends State<CameraOptions> {
   }
 
 
-  optionOpenHandler(optionOpen, changeOpen){
+  optionOpenHandler(optionOpen, changeOpen, changeStatus){
     return optionOpen=='camera'?AnimatedOpacity(
       opacity: boxOpacity,
       duration: Duration(milliseconds: 500),
@@ -85,7 +85,13 @@ class _CameraOptions extends State<CameraOptions> {
                     height: 0.65*constraints.maxHeight,
                     width: constraints.maxWidth,
                     padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-                    child: Text('moo'),
+                    child: RaisedButton(
+                      onPressed: (){
+                        print('pressed snap pic button');
+                        changeStatus('takepicture');
+                      },
+                      child: new Text('Snap Pic')
+                    ),
                   )
                 ],
               )
@@ -107,22 +113,22 @@ class _CameraOptions extends State<CameraOptions> {
 
   delayOptionHandler(optionOpen){
     if(optionOpen=='camera'){
-      setState(() {
+      mounted?setState(() {
         iconOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           boxOpacity=1;
-        });
+        }):null;
       });
     }else{
-      setState(() {
+      mounted?setState(() {
         boxOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           iconOpacity=1;
-        });
+        }):null;
       });
     }
   }
@@ -132,11 +138,12 @@ class _CameraOptions extends State<CameraOptions> {
     final yadaState = Provider.of<YadaState>(context);
     String optionOpen = yadaState.getMessageOptionsBox().optionOpen;
     Function changeOpen = (newMessageOption) => yadaState.changeMessageOptionsBox(newMessageOption);
+    Function changeStatus = (newStatus)=>yadaState.changeHomeStatus(newStatus);
 
     delayOptionHandler(optionOpen);
 
     return Container(
-      child: optionOpenHandler(optionOpen, changeOpen),
+      child: optionOpenHandler(optionOpen, changeOpen, changeStatus),
       decoration: new BoxDecoration(
         color: optionOpen=="camera"?WriterFuncs.buttonColorFunc('options', 'brown'):WriterFuncs.buttonColorFunc('options', 'orange'),
         borderRadius: optionOpen == "camera"? new BorderRadius.all(const Radius.circular(20.0)):new BorderRadius.all(const Radius.circular(50.0))

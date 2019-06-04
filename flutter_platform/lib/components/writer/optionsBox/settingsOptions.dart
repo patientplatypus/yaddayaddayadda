@@ -106,22 +106,22 @@ class _SettingsOptions extends State<SettingsOptions> {
 
   delayOptionHandler(optionOpen){
     if(optionOpen=='settings'){
-      setState(() {
+      mounted?setState(() {
         iconOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           boxOpacity=1;
-        });
+        }):null;
       });
     }else{
-      setState(() {
+      mounted?setState(() {
         boxOpacity=0;
-      });
+      }):null;
       Future.delayed(Duration(milliseconds: 500),(){
-        setState(() {
+        mounted?setState(() {
           iconOpacity=1;
-        });
+        }):null;
       });
     }
   }
